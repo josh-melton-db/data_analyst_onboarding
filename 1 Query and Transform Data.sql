@@ -1,4 +1,11 @@
 -- Databricks notebook source
+-- MAGIC %md
+-- MAGIC ##Query and Transform Data
+-- MAGIC Run the first two cells </br>
+-- MAGIC Replace the default table names in the queries below with your table names for this exercise
+
+-- COMMAND ----------
+
 -- DBTITLE 1,Run me: Import Libraries
 -- MAGIC %python
 -- MAGIC pip install dbldatagen
@@ -22,25 +29,25 @@
 -- DBTITLE 1,Query the IOT Data
 -- Run the first two cells to set up your data! 
 select *
-from josh_melton_onboarding.sensor_bronze -- <- Paste your iot table name here (printed in the previous cell)
+from onboarding.josh_melton_sensor_bronze -- <- Paste your iot table name here (printed in the previous cell)
 
 -- COMMAND ----------
 
 -- DBTITLE 1,Query the Defect Data
 -- Tip: Shift+Enter runs the selected cell
 select * 
-from josh_melton_onboarding.defect_bronze -- <- Paste your defect table name here (printed with iot data)
+from onboarding.josh_melton_defect_bronze -- <- Paste your defect table name here (printed with iot data)
 
 -- COMMAND ----------
 
 -- DBTITLE 1,Created Joined Temp View
 -- Create a view joining the two tables together
-create or replace view josh_melton_onboarding.joined_iot_defect -- <- rename the view with your username prefix from before
+create or replace view onboarding.joined_iot_defect -- <- rename the view with your username prefix from before
 as (
   select bronze.*,
          defect.* except(device_id, timestamp)
-  from josh_melton_onboarding.sensor_bronze bronze
-  left join josh_melton_onboarding.defect_bronze defect
+  from onboarding.josh_melton_sensor_bronze bronze
+  left join onboarding.josh_melton_defect_bronze defect
     on bronze.device_id = defect.device_id 
     and bronze.timestamp = defect.timestamp
 )
@@ -55,13 +62,13 @@ as (
         concat(device_id, ":", factory_id) as composite_id, 
         temperature/delay as heating_rate,
         temperature as temp_fahrenheit
-  from joined_iot_defect iot
+  from onboarding.joined_iot_defect iot
   where factory_id is not null and device_id is not null
 )
 
 -- COMMAND ----------
 
-create or replace table josh_melton_onboarding.sensor_silver  -- <- rename the table with your username prefix from before
+create or replace table onboarding.sensor_silver  -- <- rename the table with your username prefix from before
 as (
   select factory_id, defect, count(*) as count, avg(heating_rate) as avg_heating_rate
   from test_2
@@ -71,7 +78,7 @@ as (
 -- COMMAND ----------
 
 select *
-from josh_melton_onboarding.sensor_silver  -- <- change to the table created in the cell above
+from onboarding.sensor_silver  -- <- change to the table created in the cell above
 
 -- COMMAND ----------
 

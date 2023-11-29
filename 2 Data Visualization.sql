@@ -7,7 +7,7 @@
 -- COMMAND ----------
 
 select *
-from josh_melton_onboarding.sensor_silver  -- <- change to the table created in the previous notebook
+from onboarding.sensor_silver  -- <- change to the table created in the previous notebook
 
 -- COMMAND ----------
 
@@ -23,7 +23,7 @@ from josh_melton_onboarding.sensor_silver  -- <- change to the table created in 
 -- COMMAND ----------
 
 select *
-from josh_melton_onboarding.sensor_bronze  -- <- change to the table created in the previous notebook
+from onboarding.josh_melton_sensor_bronze  -- <- change to the table created in the previous notebook
 
 -- COMMAND ----------
 
