@@ -1,11 +1,11 @@
 -- Databricks notebook source
--- DBTITLE 1,Import Libraries
+-- DBTITLE 1,Run me: Import Libraries
 -- MAGIC %python
 -- MAGIC pip install dbldatagen
 
 -- COMMAND ----------
 
--- DBTITLE 1,Run Setup, Get Table Name
+-- DBTITLE 1,Run me: Setup, Get Table Name
 -- MAGIC %python
 -- MAGIC from utils.onboarding_setup import get_config, reset_tables, iot_data_generator, defect_data_generator
 -- MAGIC config = get_config(spark)
@@ -61,7 +61,7 @@ as (
 
 -- COMMAND ----------
 
-create or replace table josh_melton_onboarding.sensor_silver
+create or replace table josh_melton_onboarding.sensor_silver  -- <- rename the table with your username prefix from before
 as (
   select factory_id, defect, count(*) as count, avg(heating_rate) as avg_heating_rate
   from test_2
@@ -71,7 +71,7 @@ as (
 -- COMMAND ----------
 
 select *
-from josh_melton_onboarding.sensor_silver
+from josh_melton_onboarding.sensor_silver  -- <- change to the table created in the cell above
 
 -- COMMAND ----------
 
