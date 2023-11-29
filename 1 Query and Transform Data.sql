@@ -35,7 +35,7 @@ from josh_melton_onboarding.defect_bronze -- <- Paste your defect table name her
 
 -- DBTITLE 1,Created Joined Temp View
 -- Create a view joining the two tables together
-create or replace view joined_iot_defect -- <- rename the table with your username prefix from before here
+create or replace view josh_melton_onboarding.joined_iot_defect -- <- rename the view with your username prefix from before
 as (
   select bronze.*,
          defect.* except(device_id, timestamp)
@@ -49,24 +49,29 @@ as (
 
 -- Add some transformations to the view we created above 
 -- and create temp view for future queries in this notebook
-create or replace temp view test_2 -- <- rename the table with your username prefix here
+create or replace temp view test_2 -- <- rename the temp view if you'd like
 as (
-  select *, concat(device_id, ":", factory_id) as composite_id, temperature as temp_fahrenheit
+  select *, 
+        concat(device_id, ":", factory_id) as composite_id, 
+        temperature/delay as heating_rate,
+        temperature as temp_fahrenheit
   from joined_iot_defect iot
   where factory_id is not null and device_id is not null
 )
 
 -- COMMAND ----------
 
-create or replace view test_jlm_1
+create or replace table josh_melton_onboarding.sensor_silver
 as (
-  select bronze.*,
-         defect.* except(device_id, timestamp)
-  from josh_melton_onboarding.sensor_bronze bronze
-  left join josh_melton_onboarding.defect_bronze defect
-    on bronze.device_id = defect.device_id 
-    and bronze.timestamp = defect.timestamp
+  select factory_id, defect, count(*) as count, avg(heating_rate) as avg_heating_rate
+  from test_2
+  group by defect, factory_id
 )
+
+-- COMMAND ----------
+
+select *
+from josh_melton_onboarding.sensor_silver
 
 -- COMMAND ----------
 
