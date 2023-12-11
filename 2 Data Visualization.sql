@@ -1,8 +1,8 @@
 -- Databricks notebook source
 -- MAGIC %md
--- MAGIC Now that we've transformed our data into something interesting and saved it to a table, let's begin visualizing it! </br></br> Run the cell below and click the + button next to Table as shown in the imagebelow, and create a bar chart visualization with the data. Make the X axis the factory id, the y axis the count, and group by defect. Click on the visualization's title to rename it to something more descriptive  </br>
+-- MAGIC Now that we've transformed our data into something interesting and saved it to a table, let's begin visualizing it! </br></br> Run the cell below and click the + button next to Table as shown in the image below, and create a bar chart visualization with the data. Make the X axis the factory id, the y axis the count, and group by defect. Click on the visualization's title to rename it to something more descriptive  </br></br>
 -- MAGIC
--- MAGIC <img style="float: right" width="200" src="https://github.com/josh-melton-db/data_analyst_onboarding/blob/main/utils/images/create_visual.png?raw=true">
+-- MAGIC <img style="float: right" width="500" src="https://github.com/josh-melton-db/data_analyst_onboarding/blob/main/utils/images/create_visual.png?raw=true">
 
 -- COMMAND ----------
 
